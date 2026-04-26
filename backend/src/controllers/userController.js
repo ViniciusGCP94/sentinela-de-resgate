@@ -3,37 +3,38 @@ import * as usuarioModel from '../models/user.js';
 
 const criarUsuario = async (req, res) => {
     try {
-        const { nome, email, senha, role } = req.body;
-    
+        const { nome, email, senha, cargo } = req.body;
+
+        if (!nome || !email || !senha) {
+            return res.status(400).json({ error: 'Nome, email e senha são obrigatórios.' });
+        }
+
+        const usuarioExistente = await usuarioModel.buscarUsuarioPorEmail(email);
+        if (usuarioExistente) {
+            return res.status(400).json({ error: 'Este e-mail já está cadastrado.' });
+        }
+
         const senhaHash = await bcrypt.hash(senha, 10);
 
-        const resultado = await usuarioModel.criarUsuario(nome, email, senhaHash, role);
-        
+        const novoUsuario = await usuarioModel.criarUsuario(nome, email, senhaHash, cargo);
+
         res.status(201).json({
             mensagem: 'Usuário criado com sucesso!',
-            usuario: resultado
+            usuario: novoUsuario
         });
 
     } catch (erro) {
-        console.error(erro);
-        res.status(500).json({
-             error: 'Erro ao criar o usuário'
-        });
+        console.error('Erro no registro:', erro);
+        res.status(500).json({ error: 'Erro interno ao criar usuário.' });
     }
-}
+};
 
 const listarUsuarios = async (req, res) => {
     try {
-        const resultado = await usuarioModel.listarUsuarios();
-        res.status(200).json(resultado.rows);
+        res.json({ mensagem: "Rota de listagem pronta para implementação futura." });
     } catch (erro) {
-        res.status(500).json({
-            error: 'Erro ao buscar dados dos usuários'
-        });
+        res.status(500).json({ error: 'Erro ao listar usuários.' });
     }
-}
-
-export {
-    criarUsuario,
-    listarUsuarios
 };
+
+export { criarUsuario, listarUsuarios };
