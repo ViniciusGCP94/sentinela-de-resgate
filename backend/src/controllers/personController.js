@@ -12,15 +12,18 @@ const listar = async (req, res) => {
 };
 
 const criar = async (req, res) => {
-    try {
+   try {
         const novaPessoa = await personModel.criarPessoa(req.body, req.usuario.id);
-        res.status(201).json(novaPessoa);
-    } catch (erro) {
-        console.error(erro); // Isso vai imprimir o erro no terminal do VS Code
-        res.status(400).json({ 
-            error: "Erro ao processar o cadastro.",
-            details: erro.message // Adicione esta linha para ver o erro no Postman
+        res.status(201).json({
+            mensagem: 'Cidadão cadastrado com sucesso!',
+            pessoa: novaPessoa
         });
+    } catch (erro) {
+        console.error(erro);
+        if (erro.code === '23505') {
+            return res.status(400).json({ error: 'Este CPF já está cadastrado no sistema.' });
+        }
+        res.status(500).json({ error: 'Erro ao processar o cadastro.', details: erro.message });
     }
 };
 
