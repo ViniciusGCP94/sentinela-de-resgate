@@ -5,6 +5,7 @@ import 'dotenv/config';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import personRoutes from './routes/personRoutes.js';
+import medicationRoutes from './routes/medicationRoutes.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use('/api/usuarios', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/pessoas', personRoutes);
+app.use('/api/medicamentos', medicationRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
