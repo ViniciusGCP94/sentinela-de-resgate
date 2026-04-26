@@ -45,17 +45,18 @@ Implementámos um controlo de acesso baseado em cargos (**Role-Based Access Cont
 backend/src/
 ├── config/      # Configuração da conexão com PostgreSQL
 ├── controllers/ # Lógica de processamento das requisições
-├── middlewares/ # Camada de segurança (Autenticação e RBAC)
+├── middlewares/ # Camada de segurança (JWT e RBAC)
 ├── models/      # Queries SQL e interação direta com o banco
 ├── routes/      # Definição e proteção dos endpoints da API
 └── app.js       # Configuração global e middlewares do Express
 ```
 
-### 📡 API Endpoints (Estado Atual)
-
 | Método | Rota | Descrição | Acesso |
 | :--- | :--- | :--- | :--- |
 | `POST` | `/api/auth/login` | Autenticação e geração de token | Público |
-| `POST` | `/api/usuarios/registro` | Registo de novos agentes | Público |
-| `GET` | `/api/usuarios/` | Listagem global de agentes | **Defesa Civil** |
+| `POST` | `/api/usuarios/registro` | Registo de novos agentes (ACS ou Defesa Civil) | Público |
+| `GET` | `/api/usuarios/` | Listagem global de agentes cadastrados | **Defesa Civil** |
+| `POST` | `/api/pessoas/` | Cadastro de pessoa vulnerável/desabrigada | **Autenticado** |
+| `GET` | `/api/pessoas/` | Listagem de pessoas (com filtros de bairro/status) | **Autenticado** |
+| `PATCH` | `/api/pessoas/:id/status` | Atualização do status de resgate/vulnerabilidade | **Autenticado** |
 | `GET` | `/api/health` | Status de saúde do servidor | Público |
