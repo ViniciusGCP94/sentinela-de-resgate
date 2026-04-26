@@ -26,8 +26,16 @@ const buscarUsuarioPorId = async (id) => {
     return res.rows[0];
 }
 
+const buscarTodosUsuarios = async () => {
+    const res = await pool.query(`
+        SELECT id, name, email, role FROM users ORDER BY id ASC`
+    );
+    return res.rows;
+}
+
 export {
     criarUsuario,
     buscarUsuarioPorEmail,
-    buscarUsuarioPorId
+    buscarUsuarioPorId,
+    buscarTodosUsuarios
 };
