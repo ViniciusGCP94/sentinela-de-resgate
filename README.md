@@ -20,6 +20,8 @@ A modelagem foi pensada para priorizar a vida e a transparência:
 
 > [Visualize o Diagrama de Entidade-Relacionamento aqui](https://dbdiagram.io/d/Sentinela-de-Resgate-69eb8014ddb9320fdc42d3f6)
 
+
+
 ## 🖥️ Backend (Arquitetura e Implementação)
 
 O núcleo da aplicação foi desenvolvido seguindo o padrão **MVC (Model-View-Controller)**, garantindo uma separação clara entre a lógica de persistência, as regras de negócio e a exposição de dados.
@@ -102,3 +104,22 @@ npm run dev
 ```
 
 O servidor estará disponível em `http://localhost:3000`.
+
+
+## 🎨 Frontend (Em desenvolvimento)
+
+### Stack
+- **Framework:** React 18 com Vite
+- **Estilização:** SCSS com variáveis, mixins e BEM
+- **Roteamento:** React Router DOM v6
+- **HTTP:** Axios com interceptor de token JWT
+
+### Decisão de design
+A identidade visual segue o padrão do Governo do RS — azul `#003366` como cor primária,
+tipografia Source Sans 3 para legibilidade em situações de emergência, e badges coloridos
+por status de resgate para leitura rápida em campo.
+
+### Por que SCSS e não Tailwind?
+SCSS permite criar um sistema de design próprio com variáveis semânticas (`$cor-status-nao-localizada`)
+que comunicam intenção — não apenas aparência. Em um sistema governamental, clareza de
+nomenclatura é tão importante quanto clareza visual.
