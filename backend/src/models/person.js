@@ -29,29 +29,27 @@ const listarPessoas = async (filtros, usuario) => {
     return res.rows;
 };
 
-const criarPessoa = async (data, acsId) => {
+const criarPessoa = async (dados, usuarioId) => {
     const { 
-        name, cpf, birth_date, phone, address, neighborhood, 
-        city, zip_code, needs_vital_equipment, 
-        vital_equipment_description, family_contact_name, 
-        family_contact_phone, consent 
-    } = data;
+        name, cpf, birth_date, phone, address, 
+        neighborhood, city, zip_code, consent,
+        needs_vital_equipment, vital_equipment_description
+    } = dados;
 
     const query = `
         INSERT INTO persons (
-            name, cpf, birth_date, phone, address, neighborhood, 
-            city, zip_code, needs_vital_equipment, 
-            vital_equipment_description, family_contact_name, 
-            family_contact_phone, consent, registered_by
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+            name, cpf, birth_date, phone, address, 
+            neighborhood, city, zip_code, consent, 
+            registered_by, needs_vital_equipment, vital_equipment_description
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         RETURNING *;
     `;
 
     const values = [
-        name, cpf, birth_date, phone, address, neighborhood, 
-        city, zip_code, needs_vital_equipment, 
-        vital_equipment_description, family_contact_name, 
-        family_contact_phone, consent, acsId
+        name, cpf, birth_date, phone, address, 
+        neighborhood, city, zip_code, consent, 
+        usuarioId, needs_vital_equipment || false, vital_equipment_description || null
     ];
 
     const res = await pool.query(query, values);
