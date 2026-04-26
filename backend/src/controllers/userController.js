@@ -31,9 +31,12 @@ const criarUsuario = async (req, res) => {
 
 const listarUsuarios = async (req, res) => {
     try {
-        res.json({ mensagem: "Rota de listagem pronta para implementação futura." });
+        const usuarios = await usuarioModel.buscarTodosUsuarios(); 
+        
+        res.status(200).json(usuarios); 
     } catch (erro) {
-        res.status(500).json({ error: 'Erro ao listar usuários.' });
+        console.error('Erro ao listar usuários:', erro);
+        res.status(500).json({ error: 'Erro ao listar usuários no banco de dados.' });
     }
 };
 
