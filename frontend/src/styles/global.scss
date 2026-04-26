@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@use 'variables' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $fonte-principal;
+  background-color: $cor-cinza-100;
+  color: $cor-cinza-700;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: $fonte-principal;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $espaco-6;
+}
+
+.tituloPagina {
+  font-size: 1.5rem;
+  font-weight: $peso-semibold;
+  color: $cor-primaria;
+  margin-bottom: $espaco-6;
+}
