@@ -2,16 +2,18 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 
-import usuarioRoutes from './routes/userRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import personRoutes from './routes/personRoutes.js';
 
 const app = express();
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
-app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/usuarios', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/pessoas', personRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
