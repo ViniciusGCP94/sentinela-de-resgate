@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import * as usuarioModel from '../models/user.js';
 
-// Função de Login (Já existente no seu arquivo)
 const login = async (req, res) => {
     try {
         const { email, senha } = req.body;
@@ -32,7 +31,6 @@ const login = async (req, res) => {
     }
 }
 
-// Função de Registro (Nova para fechar a Etapa 5)
 const registrar = async (req, res) => {
     try {
         const { nome, email, senha, cargo } = req.body;
