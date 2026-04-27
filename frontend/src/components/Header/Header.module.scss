@@ -1,0 +1,66 @@
+@use '../../styles/variables' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: $largura-sidebar;
+  right: 0;
+  height: $altura-header;
+  background: $cor-branco;
+  border-bottom: 1px solid $cor-cinza-200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $espaco-6;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: left 0.3s ease;
+}
+
+.titulo {
+  font-size: $tamanho-lg;
+  font-weight: $peso-semibold;
+  color: $cor-primaria;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: $espaco-3;
+}
+
+.nomeUsuario {
+  font-size: $tamanho-sm;
+  color: $cor-cinza-700;
+  font-weight: $peso-medio;
+}
+
+.cargo {
+  font-size: $tamanho-xs;
+  background: $cor-primaria-claro;
+  color: $cor-primaria;
+  padding: $espaco-1 $espaco-2;
+  border-radius: 20px;
+  font-weight: $peso-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.btnLogout {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: $cor-cinza-600;
+  font-size: $tamanho-sm;
+  padding: $espaco-2 $espaco-3;
+  border-radius: $raio-borda;
+  cursor: pointer;
+  border: none;
+  font-family: $fonte-principal;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: $cor-cinza-100;
+    color: $cor-secundaria;
+  }
+}
