@@ -1,0 +1,37 @@
+@use '../../styles/variables' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: $tamanho-xs;
+  font-weight: $peso-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.emCasa {
+  background: rgba($cor-status-em-casa, 0.1);
+  color: $cor-status-em-casa;
+}
+
+.resgatada {
+  background: rgba($cor-status-resgatada, 0.1);
+  color: $cor-status-resgatada;
+}
+
+.emAbrigo {
+  background: rgba($cor-status-em-abrigo, 0.1);
+  color: $cor-status-em-abrigo;
+}
+
+.naoLocalizada {
+  background: rgba($cor-status-nao-localizada, 0.1);
+  color: $cor-status-nao-localizada;
+}
+
+.padrao {
+  background: $cor-cinza-200;
+  color: $cor-cinza-700;
+}
