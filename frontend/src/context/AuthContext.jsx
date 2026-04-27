@@ -4,8 +4,8 @@ import { login as loginService } from '../services/authService'
 const AuthContext = createContext(null)
 
 const AuthProvider = ({ children }) => {
-  const [usuario, setUsuario] = useState(null)
-  const [carregando, setCarregando] = useState(true)
+  const [usuario, setUsuario] = useState(null) // Resetado para nulo
+  const [carregando, setCarregando] = useState(false)
 
   useEffect(() => {
     const usuarioSalvo = localStorage.getItem('usuario')
@@ -14,18 +14,19 @@ const AuthProvider = ({ children }) => {
     if (usuarioSalvo && token) {
       setUsuario(JSON.parse(usuarioSalvo))
     }
-
-    setCarregando(false)
   }, [])
 
   const login = async (email, senha) => {
-    const dados = await loginService(email, senha)
-
-    localStorage.setItem('token', dados.token)
-    localStorage.setItem('usuario', JSON.stringify(dados.user))
-
-    setUsuario(dados.user)
-    return dados.user
+    try {
+      const dados = await loginService(email, senha)
+      localStorage.setItem('token', dados.token)
+      localStorage.setItem('usuario', JSON.stringify(dados.user))
+      setUsuario(dados.user)
+      return dados.user
+    } catch (error) {
+      console.error("Erro ao realizar login:", error)
+      throw error
+    }
   }
 
   const logout = () => {
@@ -34,11 +35,18 @@ const AuthProvider = ({ children }) => {
     setUsuario(null)
   }
 
-  const isAcs = usuario?.role === 'acs'
-  const isDefesaCivil = usuario?.role === 'defesa_civil'
+  const ehAcs = usuario?.role === 'acs'
+  const ehDefesaCivil = usuario?.role === 'defesa_civil'
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout, carregando, isAcs, isDefesaCivil }}>
+    <AuthContext.Provider value={{ 
+      usuario, 
+      login, 
+      logout, 
+      carregando, 
+      ehAcs, 
+      ehDefesaCivil 
+    }}>
       {children}
     </AuthContext.Provider>
   )
