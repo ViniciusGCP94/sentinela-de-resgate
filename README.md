@@ -123,3 +123,17 @@ por status de resgate para leitura rápida em campo.
 SCSS permite criar um sistema de design próprio com variáveis semânticas (`$cor-status-nao-localizada`)
 que comunicam intenção — não apenas aparência. Em um sistema governamental, clareza de
 nomenclatura é tão importante quanto clareza visual.
+
+### Arquitetura de dados
+
+**Services separados por domínio** (`pessoaService`, `medicamentoService`, `materialService`) 
+espelham a separação de controllers no backend. Cada service tem uma única responsabilidade — SRP 
+aplicado no frontend da mesma forma que no backend.
+
+**AuthContext** gerencia o estado global de autenticação. A decisão de usar Context API nativa 
+(sem Zustand ou Redux) foi deliberada: o estado de autenticação é simples e não justifica 
+uma dependência externa.
+
+**PrivateRoute** espelha os middlewares `autenticar` e `autorizar` do backend no frontend. 
+A segurança real está no backend, mas o frontend redireciona antes de fazer a requisição — 
+melhor UX e menos carga no servidor.
