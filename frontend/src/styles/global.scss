@@ -43,3 +43,20 @@ ul {
   color: $cor-primaria;
   margin-bottom: $espaco-6;
 }
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+
+  &__conteudo {
+    flex: 1;
+    margin-left: $largura-sidebar; 
+    padding-top: $altura-header;   
+  }
+
+  &__pagina {
+    padding: $espaco-6;
+    max-width: 1200px;
+    margin: 0 auto; 
+  }
+}
