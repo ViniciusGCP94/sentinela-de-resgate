@@ -137,3 +137,36 @@ uma dependência externa.
 **PrivateRoute** espelha os middlewares `autenticar` e `autorizar` do backend no frontend. 
 A segurança real está no backend, mas o frontend redireciona antes de fazer a requisição — 
 melhor UX e menos carga no servidor.
+
+## 🧪 Metodologia de Teste e Validação
+
+Para garantir a integridade da arquitetura antes de avançar para componentes de dados, realizei um teste de integração visual do **Dashboard**.
+
+### Descrição do Teste
+O objetivo foi validar se o `AuthContext` estava provendo os dados corretamente para o `Header` e se o `Layout` estava posicionando a `Sidebar` sem sobrepor o conteúdo principal.
+
+**Procedimentos realizados:**
+1. **Mock de Autenticação:** Forcei um estado de usuário autenticado no `AuthContext` para ignorar o redirecionamento do `PrivateRoute`.
+2. **Composição de Layout:** Inseri temporariamente o componente `Layout` dentro da rota `/dashboard` no `App.jsx` para validar a moldura do sistema.
+
+
+### Resultado do Teste
+A interface foi renderizada com sucesso, confirmando que:
+* As variáveis do RS (Cores e Tipografia) estão carregando corretamente.
+* O layout fixo é responsivo à largura da sidebar definida.
+
+---
+
+## 🛠️ Reset de Ambiente (Pós-Teste)
+Após a confirmação de que a estrutura base está 100% funcional, **reverti os arquivos para o estado planejado no cronograma**:
+* Removi as chamadas temporárias do `Layout` no `App.jsx`.
+
+### 🏗️ Componentes de Layout
+
+Nesta etapa, consolidei a arquitetura visual do projeto, garantindo que o sistema seja escalável e consistente.
+
+- **Sidebar**: Implementa um menu dinâmico que reflete o **RBAC (Role-Based Access Control)** do backend. Agentes de Saúde (ACS) visualizam ferramentas de cadastro, enquanto a Defesa Civil foca em monitoramento e logística.
+- **StatusBadge**: Centraliza o mapeamento de cores semânticas ($cor-status-resgatada, etc.). Seguindo o **SRP**, qualquer alteração em regras de negócio de status é feita exclusivamente neste componente, impactando todo o sistema.
+- **Layout (Wrapper)**: Funciona como um componente de ordem superior que encapsula o Header e a Sidebar. Isso permite que novas páginas sejam criadas sem a necessidade de repetir o código da estrutura global.
+
+**Resultado Esperado:** Interface limpa, seguindo a identidade visual do RS, com navegação protegida e estados de usuário validados.
