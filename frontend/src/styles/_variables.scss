@@ -3,6 +3,10 @@ $cor-primaria: #003366;
 $cor-primaria-claro: rgba(0, 51, 102, 0.1);
 $cor-alerta: #CC0000;
 
+
+$cor-secundaria: #CC0000;      // Vermelho alerta
+$cor-secundaria-hover: #aa0000;
+
 // Cores de Status (Semânticas)
 $cor-status-em-casa: #28a745;
 $cor-status-resgatada: #007bff;
@@ -13,19 +17,24 @@ $cor-status-nao-localizada: #dc3545;
 $cor-branco: #ffffff;
 $cor-cinza-100: #f8f9fa;
 $cor-cinza-200: #e9ecef;
+$cor-cinza-600: #868e96;
 $cor-cinza-700: #495057;
 
 // Tipografia
 $fonte-principal: 'Source Sans 3', sans-serif;
 $tamanho-xs: 0.75rem;
+$tamanho-sm: 0.875rem;
 $tamanho-base: 1rem;
 $tamanho-lg: 1.25rem;
 $peso-regular: 400;
+$peso-medio: 500;
 $peso-semibold: 600;
+$peso-bold: 700;
 
 // Layout
 $largura-sidebar: 260px;
 $altura-header: 70px;
+$espaco-1: 0.25rem;
 $espaco-2: 0.5rem;
 $espaco-3: 0.75rem;
 $espaco-4: 1rem;
