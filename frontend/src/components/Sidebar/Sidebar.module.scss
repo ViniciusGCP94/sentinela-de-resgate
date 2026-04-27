@@ -1,0 +1,79 @@
+@use '../../styles/variables' as *;
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: $largura-sidebar;
+  height: 100vh;
+  background: $cor-primaria;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+}
+
+.logo {
+  padding: $espaco-6 $espaco-5;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logoTitulo {
+  font-size: $tamanho-lg;
+  font-weight: $peso-bold;
+  color: $cor-branco;
+  line-height: 1.2;
+}
+
+.logoSubtitulo {
+  font-size: $tamanho-xs;
+  color: rgba(255,255,255,0.6);
+  margin-top: $espaco-1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav {
+  flex: 1;
+  padding: $espaco-4 0;
+}
+
+.secaoTitulo {
+  font-size: $tamanho-xs;
+  font-weight: $peso-semibold;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: $espaco-3 $espaco-5 $espaco-1;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: $espaco-3;
+  padding: $espaco-3 $espaco-5;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: $tamanho-sm;
+  font-weight: $peso-medio;
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+
+  &:hover {
+    background: rgba(255,255,255,0.08);
+    color: $cor-branco;
+  }
+
+  &.ativo {
+    background: rgba(255,255,255,0.12);
+    color: $cor-branco;
+    border-left-color: $cor-branco;
+    font-weight: $peso-semibold;
+  }
+}
+
+.rodape {
+  padding: $espaco-4 $espaco-5;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: $tamanho-xs;
+  color: rgba(255,255,255,0.4);
+}
