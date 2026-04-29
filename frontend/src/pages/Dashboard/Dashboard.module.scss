@@ -1,0 +1,57 @@
+@use '../../styles/variables' as *;
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $espaco-4;
+  margin-bottom: $espaco-6;
+}
+
+.card {
+  background: $cor-branco;
+  border-radius: $raio-borda;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid $cor-cinza-200;
+  padding: $espaco-5;
+  border-left: 4px solid;
+}
+
+.cardTotal { border-left-color: $cor-primaria; }
+.cardResgatada { border-left-color: $cor-status-resgatada; }
+.cardEmAbrigo { border-left-color: $cor-status-em-abrigo; }
+.cardNaoLocalizada { border-left-color: $cor-status-nao-localizada; }
+
+.cardNumero {
+  font-size: $tamanho-3xl;
+  font-weight: $peso-bold;
+  color: $cor-cinza-900;
+  line-height: 1;
+  margin-bottom: $espaco-1;
+}
+
+.cardLabel {
+  font-size: $tamanho-xs;
+  color: $cor-cinza-600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: $peso-semibold;
+}
+
+.linkNovo {
+  display: inline-flex;
+  align-items: center;
+  gap: $espaco-2;
+  padding: $espaco-2 $espaco-4;
+  background: $cor-primaria;
+  color: $cor-branco;
+  text-decoration: none;
+  border-radius: $raio-borda;
+  font-size: $tamanho-sm;
+  font-weight: $peso-semibold;
+  transition: background 0.15s ease;
+  margin-top: $espaco-4;
+
+  &:hover {
+    background: $cor-primaria-hover;
+  }
+}
