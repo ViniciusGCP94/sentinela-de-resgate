@@ -188,14 +188,32 @@ As variáveis globais foram expandidas para suportar a nova interface e estados 
 * **Escalabilidade**: Adição de variáveis de hover (`$cor-primaria-hover`), novos tons de cinza (`$cor-cinza-50`, `$cor-cinza-300`, `$cor-cinza-900`) e tamanhos de fonte (`$tamanho-2xl`, `$tamanho-3xl`).
 * **Consistência**: Uso exclusivo de variáveis semânticas, garantindo que qualquer alteração na identidade visual seja replicada instantaneamente em todo o sistema.
 
+### 📊 Etapa 5: Integração de Dados e Dashboard Dinâmico
+
+Nesta etapa, a aplicação avançou para o consumo real de dados da API, substituindo os placeholders por informações dinâmicas do banco de dados PostgreSQL.
+
+#### Implementações Técnicas:
+* **Dashboard Analítico**: Implementação de cards de resumo que realizam requisições ao backend para exibir o total de cadastros, resgates efetuados e ocupação de abrigos em tempo real.
+* **Listagem de Pessoas**: Criação de uma tabela interativa utilizando o `pessoaService`, com suporte a renderização condicional de estilos baseada no status do cidadão.
+* **Sistema de Filtros**: Desenvolvimento de lógica de busca por **Bairro** e filtragem por **Status**, permitindo que o usuário refine a visualização dos dados sem recarregar a página.
+* **Sincronização de Rotas**: Atualização do `App.jsx` para incluir as rotas de `/dashboard` e `/pessoas`, protegidas pelo middleware de autenticação.
+
+#### Evolução do Design System (SCSS):
+* **Cores Semânticas**: Adição da variável `$cor-cinza-800` para melhorar o contraste de textos e ajuste dos badges de status para facilitar a leitura rápida de triagem.
+* **Layout Fluido**: Ajuste dos componentes de `Layout` e `Sidebar` para garantir que o Dashboard e a Listagem ocupem a área útil da tela sem quebras de design.
+
+#### Visibilidade por Perfil (RBAC):
+* **Filtro de Escopo**: O sistema foi configurado para que o Agente de Saúde (ACS) visualize apenas as pessoas cadastradas sob sua responsabilidade, enquanto o perfil de Defesa Civil mantém a visão macro das estatísticas do estado.
+
 #### Estrutura de Pastas Atualizada:
 ```text
 frontend/src/
-├── components/   # Layout, Sidebar, Header, PrivateRoute
-├── context/      # AuthContext (Estado global de login)
+├── components/   # Layout, Sidebar, StatusBadge, PrivateRoute
+├── context/      # AuthContext (Gestão de tokens e permissões)
 ├── pages/
-│   ├── Login/    # Componente e SCSS Module (Etapa 4)
-│   └── Dashboard/# Placeholder de monitoramento
-├── styles/       # Variáveis Globais e Mixins
-└── App.jsx       # Gerenciamento central de rotas e proteção
+│   ├── Login/    # Login institucional do Governo RS
+│   ├── Dashboard/# Monitoramento de indicadores
+│   └── Pessoas/  # Tabela de gestão e filtros
+├── services/     #pessoaService (integração Axios)
+└── styles/       # Variáveis Globais, Mixins e Identidade Visual RS
 ```
