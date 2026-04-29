@@ -1,10 +1,10 @@
 // Cores Identidade (Governo do RS)
 $cor-primaria: #003366; 
+$cor-primaria-hover: #00264d; // Adicionado
 $cor-primaria-claro: rgba(0, 51, 102, 0.1);
 $cor-alerta: #CC0000;
 
-
-$cor-secundaria: #CC0000;      // Vermelho alerta
+$cor-secundaria: #CC0000;      
 $cor-secundaria-hover: #aa0000;
 
 // Cores de Status (Semânticas)
@@ -15,10 +15,14 @@ $cor-status-nao-localizada: #dc3545;
 
 // Tons de Cinza e Neutros
 $cor-branco: #ffffff;
+$cor-cinza-50: #fbfbfb;  // Adicionado
 $cor-cinza-100: #f8f9fa;
 $cor-cinza-200: #e9ecef;
+$cor-cinza-300: #dee2e6; // Adicionado
+$cor-cinza-500: #adb5bd; // Adicionado
 $cor-cinza-600: #868e96;
 $cor-cinza-700: #495057;
+$cor-cinza-900: #212529; // Adicionado
 
 // Tipografia
 $fonte-principal: 'Source Sans 3', sans-serif;
@@ -26,6 +30,8 @@ $tamanho-xs: 0.75rem;
 $tamanho-sm: 0.875rem;
 $tamanho-base: 1rem;
 $tamanho-lg: 1.25rem;
+$tamanho-2xl: 1.5rem;   // Adicionado
+$tamanho-3xl: 1.875rem; // Adicionado
 $peso-regular: 400;
 $peso-medio: 500;
 $peso-semibold: 600;
