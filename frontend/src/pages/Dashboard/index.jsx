@@ -8,8 +8,8 @@ import styles from './Dashboard.module.scss'
 const contarPorStatus = (pessoas) => ({
   total: pessoas.length,
   resgatada: pessoas.filter(p => p.status === 'resgatada').length,
-  em_abrigo: pessoas.filter(p => p.status === 'em_abrigo').length,
-  nao_localizada: pessoas.filter(p => p.status === 'nao_localizada').length,
+  emAbrigo: pessoas.filter(p => p.status === 'emAbrigo').length,
+  naoLocalizada: pessoas.filter(p => p.status === 'naoLocalizada').length,
 })
 
 const Dashboard = () => {
@@ -50,20 +50,20 @@ const Dashboard = () => {
       </p>
 
       <div className={styles.cards}>
-        <div className={`${styles.card} ${styles['card--total']}`}>
+        <div className={`${styles.card} ${styles['cardTotal']}`}>
           <div className={styles.cardNumero}>{contagem.total}</div>
           <div className={styles.cardLabel}>Total cadastrado</div>
         </div>
-        <div className={`${styles.card} ${styles['card--resgatada']}`}>
+        <div className={`${styles.card} ${styles['cardResgatada']}`}>
           <div className={styles.cardNumero}>{contagem.resgatada}</div>
           <div className={styles.cardLabel}>Resgatadas</div>
         </div>
-        <div className={`${styles.card} ${styles['card--abrigo']}`}>
-          <div className={styles.cardNumero}>{contagem.em_abrigo}</div>
+        <div className={`${styles.card} ${styles['cardEmAbrigo']}`}>
+          <div className={styles.cardNumero}>{contagem.emAbrigo}</div>
           <div className={styles.cardLabel}>Em abrigo</div>
         </div>
-        <div className={`${styles.card} ${styles['card--naoLocalizada']}`}>
-          <div className={styles.cardNumero}>{contagem.nao_localizada}</div>
+        <div className={`${styles.card} ${styles['cardNaoLocalizada']}`}>
+          <div className={styles.cardNumero}>{contagem.naoLocalizada}</div>
           <div className={styles.cardLabel}>Não localizadas</div>
         </div>
       </div>
