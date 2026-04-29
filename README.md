@@ -170,3 +170,32 @@ Nesta etapa, consolidei a arquitetura visual do projeto, garantindo que o sistem
 - **Layout (Wrapper)**: Funciona como um componente de ordem superior que encapsula o Header e a Sidebar. Isso permite que novas páginas sejam criadas sem a necessidade de repetir o código da estrutura global.
 
 **Resultado Esperado:** Interface limpa, seguindo a identidade visual do RS, com navegação protegida e estados de usuário validados.
+
+### 🖥️ Tela de Login e Autenticação (Etapa 4)
+
+Nesta etapa, a aplicação deixou de usar dados estáticos (mocks) e passou a integrar-se diretamente com o backend real, implementando o fluxo completo de autenticação e controle de acesso.
+
+#### Implementações Técnicas:
+* **Layout Institucional**: Criação de uma interface de duas colunas, utilizando um banner com a identidade visual do Governo do RS à esquerda e o formulário de acesso à direita.
+* **Redirecionamento por Cargo (RBAC)**: O sistema agora direciona o usuário automaticamente com base no seu `role` retornado pela API:
+    * **ACS (Agente Comunitário de Saúde)**: Redirecionado para `/pessoas`, focando na sua função de cadastro.
+    * **Defesa Civil**: Redirecionado para o `/dashboard` para monitoramento e logística.
+* **Persistência de Sessão**: Integração do `AuthContext` com o `localStorage`, garantindo que o token JWT e os dados do usuário permaneçam ativos após o recarregamento da página (F5).
+* **Segurança no Frontend**: Utilização do componente `PrivateRoute` para proteger rotas internas, permitindo o acesso apenas a usuários com tokens válidos.
+
+#### Evolução do Design System (SCSS):
+As variáveis globais foram expandidas para suportar a nova interface e estados de interação:
+* **Escalabilidade**: Adição de variáveis de hover (`$cor-primaria-hover`), novos tons de cinza (`$cor-cinza-50`, `$cor-cinza-300`, `$cor-cinza-900`) e tamanhos de fonte (`$tamanho-2xl`, `$tamanho-3xl`).
+* **Consistência**: Uso exclusivo de variáveis semânticas, garantindo que qualquer alteração na identidade visual seja replicada instantaneamente em todo o sistema.
+
+#### Estrutura de Pastas Atualizada:
+```text
+frontend/src/
+├── components/   # Layout, Sidebar, Header, PrivateRoute
+├── context/      # AuthContext (Estado global de login)
+├── pages/
+│   ├── Login/    # Componente e SCSS Module (Etapa 4)
+│   └── Dashboard/# Placeholder de monitoramento
+├── styles/       # Variáveis Globais e Mixins
+└── App.jsx       # Gerenciamento central de rotas e proteção
+```
