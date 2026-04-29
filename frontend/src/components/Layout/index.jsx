@@ -1,14 +1,13 @@
 import Sidebar from '../Sidebar'
 import Header from '../Header'
-import styles from './Layout.module.scss'
 
 const Layout = ({ children, titulo }) => {
   return (
-    <div className={styles.wrapper}>
+    <div className="layout">
       <Sidebar />
-      <div className={styles.conteudoPrincipal}>
+      <div className="layout__conteudo">
         <Header titulo={titulo} />
-        <main className={styles.view}>
+        <main className="layout__pagina">
           {children}
         </main>
       </div>
