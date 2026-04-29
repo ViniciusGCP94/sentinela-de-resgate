@@ -15,7 +15,7 @@ const contarPorStatus = (pessoas) => ({
 const Dashboard = () => {
   const [pessoas, setPessoas] = useState([])
   const [carregando, setCarregando] = useState(true)
-  const { ehAcs } = useAuth()
+  const { isAcs } = useAuth()
 
   useEffect(() => {
     const buscarDados = async () => {
@@ -68,7 +68,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {ehAcs && (
+      {isAcs && (
         <Link to="/pessoas/nova" className={styles.linkNovo}>
           ➕ Cadastrar nova pessoa
         </Link>
