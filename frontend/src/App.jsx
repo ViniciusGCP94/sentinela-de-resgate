@@ -3,7 +3,8 @@ import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
 import Layout from './components/Layout'
 import Login from './pages/Login' 
-const Dashboard = () => <div>Painel de Monitoramento — Em breve</div>
+// Importação do componente real
+import Dashboard from './pages/Dashboard'
 
 const App = () => {
   return (
@@ -14,9 +15,8 @@ const App = () => {
 
           <Route path="/dashboard" element={
             <PrivateRoute>
-              <Layout titulo="Dashboard">
-                <Dashboard />
-              </Layout>
+              {/* Note que o título agora é passado pelo Layout, mas o conteúdo é o seu novo Dashboard */}
+              <Dashboard />
             </PrivateRoute>
           } />
 
