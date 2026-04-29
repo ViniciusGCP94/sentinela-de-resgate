@@ -1,0 +1,126 @@
+@use '../../styles/variables' as *;
+
+.cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $espaco-4;
+}
+
+.tituloPagina {
+  font-size: $tamanho-2xl;
+  font-weight: $peso-bold;
+  color: $cor-primaria;
+  margin-bottom: $espaco-1;
+}
+
+.subtitulo {
+  font-size: $tamanho-sm;
+  color: $cor-cinza-600;
+}
+
+.filtros {
+  background: $cor-branco;
+  border-radius: $raio-borda;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid $cor-cinza-200;
+  padding: $espaco-5;
+  margin-bottom: $espaco-6;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: $espaco-4;
+  align-items: end;
+}
+
+.label {
+  display: block;
+  font-size: $tamanho-sm;
+  font-weight: $peso-semibold;
+  color: $cor-cinza-700;
+  margin-bottom: $espaco-1;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: $espaco-2 $espaco-3;
+  border: 1px solid $cor-cinza-300;
+  border-radius: $raio-borda;
+  font-size: $tamanho-base;
+  font-family: $fonte-principal;
+  color: $cor-cinza-900;
+  background: $cor-branco;
+
+  &:focus {
+    outline: none;
+    border-color: $cor-primaria;
+    box-shadow: 0 0 0 3px rgba($cor-primaria, 0.1);
+  }
+}
+
+.btnFiltrar {
+  display: inline-flex;
+  align-items: center;
+  gap: $espaco-2;
+  padding: $espaco-2 $espaco-4;
+  background: $cor-primaria;
+  color: $cor-branco;
+  border: none;
+  border-radius: $raio-borda;
+  font-size: $tamanho-sm;
+  font-weight: $peso-semibold;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover { background: $cor-primaria-hover; }
+}
+
+.btnLimpar {
+  display: inline-flex;
+  align-items: center;
+  padding: $espaco-2 $espaco-4;
+  background: $cor-branco;
+  color: $cor-primaria;
+  border: 1px solid $cor-primaria;
+  border-radius: $raio-borda;
+  font-size: $tamanho-sm;
+  font-weight: $peso-semibold;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-left: $espaco-2;
+
+  &:hover { background: $cor-primaria-claro; }
+}
+
+.tabelaContainer {
+  background: $cor-branco;
+  border-radius: $raio-borda;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid $cor-cinza-200;
+  overflow: hidden;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $tamanho-sm;
+
+  th {
+    background: $cor-primaria;
+    color: $cor-branco;
+    padding: $espaco-3 $espaco-4;
+    text-align: left;
+    font-weight: $peso-semibold;
+    font-size: $tamanho-xs;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: $espaco-3 $espaco-4;
+    border-bottom: 1px solid $cor-cinza-200;
+    color: $cor-cinza-800;
+  }
+
+  tr:nth-child(even) td { background-color: $cor-cinza-50; }
+  tr:hover td { background-color: $cor-primaria-claro; }
+}
