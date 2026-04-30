@@ -6,6 +6,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Pessoas from './pages/Pessoas'
+import NovaPessoa from './pages/NovaPessoa' // Importação adicionada[cite: 2]
 
 const App = () => {
   return (
@@ -23,6 +24,13 @@ const App = () => {
           <Route path="/pessoas" element={
             <PrivateRoute>
               <Pessoas />
+            </PrivateRoute>
+          } />
+
+          {/* Rota de novo cadastro restrita ao cargo ACS[cite: 2] */}
+          <Route path="/pessoas/nova" element={
+            <PrivateRoute cargo="acs">
+              <NovaPessoa />
             </PrivateRoute>
           } />
 
