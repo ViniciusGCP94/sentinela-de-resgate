@@ -205,6 +205,20 @@ Nesta etapa, a aplicação avançou para o consumo real de dados da API, substit
 #### Visibilidade por Perfil (RBAC):
 * **Filtro de Escopo**: O sistema foi configurado para que o Agente de Saúde (ACS) visualize apenas as pessoas cadastradas sob sua responsabilidade, enquanto o perfil de Defesa Civil mantém a visão macro das estatísticas do estado.
 
+### 📝 Etapa 6: Formulário de Cadastro de Pessoa
+
+Implementação do formulário principal para o trabalho de campo do Agente Comunitário de Saúde (ACS).
+
+#### Implementações Técnicas:
+* **Arquitetura Modular**: O formulário foi dividido em 5 seções lógicas (Dados Pessoais, Endereço, Contato Familiar, Necessidades Especiais e LGPD) para reduzir a carga cognitiva durante o preenchimento em campo.
+* **Campos Condicionais**: A seção de "Equipamento Vital" só exibe campos de descrição se o checkbox for marcado, mantendo a interface limpa e focada.
+* **Conformidade LGPD**: O botão de submissão permanece bloqueado até que o termo de consentimento seja aceito, garantindo segurança jurídica no tratamento de dados sensíveis.
+* **Navegação Pós-Cadastro**: Após o sucesso, o sistema redireciona automaticamente para a tela de detalhes da pessoa recém-criada, facilitando a adição imediata de medicamentos ou materiais se necessário.
+
+#### Evolução do Design System (SCSS):
+* **Componentização Visual**: Uso de mixins para criar as seções em estilo "Card", mantendo a consistência com o restante da aplicação.
+* **Responsividade**: Rodapé do formulário adaptável para dispositivos móveis, garantindo que os botões de ação estejam sempre acessíveis ao toque.
+
 #### Estrutura de Pastas Atualizada:
 ```text
 frontend/src/
@@ -213,7 +227,8 @@ frontend/src/
 ├── pages/
 │   ├── Login/    # Login institucional do Governo RS
 │   ├── Dashboard/# Monitoramento de indicadores
-│   └── Pessoas/  # Tabela de gestão e filtros
+│   ├── Pessoas/  # Tabela de gestão e filtros
+│   └── NovaPessoa/# Formulário de cadastro de vulneráveis (ACS)
 ├── services/     #pessoaService (integração Axios)
 └── styles/       # Variáveis Globais, Mixins e Identidade Visual RS
 ```
