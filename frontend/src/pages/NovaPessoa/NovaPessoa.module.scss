@@ -1,0 +1,60 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.secao {
+  @include card;
+  padding: $espaco-6;
+  margin-bottom: $espaco-5;
+}
+
+.secaoTitulo {
+  font-size: $tamanho-base;
+  font-weight: $peso-semibold;
+  color: $cor-primaria;
+  margin-bottom: $espaco-4;
+  padding-bottom: $espaco-3;
+  border-bottom: 1px solid $cor-cinza-200;
+  display: flex;
+  align-items: center;
+  gap: $espaco-2;
+}
+
+.checkboxLgpd {
+  display: flex;
+  align-items: flex-start;
+  gap: $espaco-3;
+  padding: $espaco-4;
+  background: $cor-primaria-claro;
+  border-radius: $raio-borda;
+  border: 1px solid rgba($cor-primaria, 0.2);
+
+  input[type='checkbox'] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  label {
+    font-size: $tamanho-sm;
+    color: $cor-cinza-700;
+    cursor: pointer;
+    line-height: 1.5;
+
+    strong {
+      color: $cor-primaria;
+    }
+  }
+}
+
+.rodapeForm {
+  display: flex;
+  gap: $espaco-3;
+  justify-content: flex-end;
+  margin-top: $espaco-4;
+
+  @include mobile {
+    flex-direction: column;
+  }
+}
