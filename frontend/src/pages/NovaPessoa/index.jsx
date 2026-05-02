@@ -42,8 +42,8 @@ const NovaPessoa = () => {
     try {
       const resposta = await criar(form)
       navigate(`/pessoas/${resposta.pessoa.id}`)
-    } catch (err) {
-      const mensagem = err.response?.data?.error || 'Erro ao cadastrar. Tente novamente.'
+    } catch (erro) {
+      const mensagem = erro.response?.data?.error || 'Erro ao cadastrar. Tente novamente.'
       setErro(mensagem)
     } finally {
       setCarregando(false)
