@@ -11,6 +11,22 @@ const listar = async (req, res) => {
     }
 };
 
+const buscarPorId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pessoa = await personModel.buscarPorId(id); 
+
+        if (!pessoa) {
+            return res.status(404).json({ error: 'Pessoa não encontrada.' });
+        }
+
+        res.json(pessoa); 
+    } catch (erro) {
+        console.error('Erro ao buscar pessoa:', erro);
+        res.status(500).json({ error: 'Erro ao buscar detalhes da pessoa.' });
+    }
+};
+
 const criar = async (req, res) => {
    try {
         const novaPessoa = await personModel.criarPessoa(req.body, req.usuario.id);
@@ -48,4 +64,4 @@ const atualizarStatus = async (req, res) => {
     }
 };
 
-export { listar, criar, atualizarStatus };
+export { listar, criar, atualizarStatus, buscarPorId };
