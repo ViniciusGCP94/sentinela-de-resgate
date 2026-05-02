@@ -2,42 +2,40 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
 
-// Importação das páginas reais
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Pessoas from './pages/Pessoas'
-import NovaPessoa from './pages/NovaPessoa' // Importação adicionada[cite: 2]
+import NovaPessoa from './pages/NovaPessoa'
+import DetalhesPessoa from './pages/DetalhesPessoa'
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <AuthProvider>
+    <AuthProvider>
+      <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
 
           <Route path="/dashboard" element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
+            <PrivateRoute><Dashboard /></PrivateRoute>
           } />
 
           <Route path="/pessoas" element={
-            <PrivateRoute>
-              <Pessoas />
-            </PrivateRoute>
+            <PrivateRoute><Pessoas /></PrivateRoute>
           } />
 
-          {/* Rota de novo cadastro restrita ao cargo ACS[cite: 2] */}
           <Route path="/pessoas/nova" element={
-            <PrivateRoute cargo="acs">
-              <NovaPessoa />
-            </PrivateRoute>
+            <PrivateRoute cargo="acs"><NovaPessoa /></PrivateRoute>
           } />
 
-          <Route path="*" element={<Navigate replace to="/login" />} />
+          <Route path="/pessoas/:id" element={
+            <PrivateRoute><DetalhesPessoa /></PrivateRoute>
+          } />
+
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   )
 }
 

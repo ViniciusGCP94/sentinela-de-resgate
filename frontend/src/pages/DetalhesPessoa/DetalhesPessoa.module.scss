@@ -1,0 +1,140 @@
+@use '../../styles/mixins' as *;
+
+.cabecalho {
+  @include card;
+  @include flex-between;
+  align-items: flex-start;
+  margin-bottom: $espaco-6;
+  gap: $espaco-5;
+
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.nomePessoa {
+  font-size: $tamanho-2xl;
+  font-weight: $peso-bold;
+  color: $cor-primaria;
+  margin-bottom: $espaco-2;
+}
+
+.infos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $espaco-3;
+  margin-top: $espaco-4;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoItem {
+  font-size: $tamanho-sm;
+  color: $cor-cinza-800;
+
+  strong {
+    display: block;
+    font-size: $tamanho-xs;
+    text-transform: uppercase;
+    color: $cor-cinza-600;
+    margin-bottom: 2px;
+  }
+}
+
+.atualizarStatus {
+  display: flex;
+  flex-direction: column;
+  gap: $espaco-2;
+  min-width: 200px;
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.alertaVital {
+  background-color: rgba($cor-status-nao-localizada, 0.1);
+  border: 2px solid $cor-status-nao-localizada;
+  color: $cor-status-nao-localizada;
+  padding: $espaco-4;
+  border-radius: $raio-borda;
+  font-weight: $peso-bold;
+  margin-bottom: $espaco-6;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $espaco-6;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.secao {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $espaco-4;
+  padding: $espaco-5;
+}
+
+.secaoHeader {
+  border-bottom: 1px solid $cor-cinza-200;
+  padding-bottom: $espaco-3;
+}
+
+.secaoTitulo {
+  font-size: $tamanho-lg;
+  font-weight: $peso-semibold;
+  color: $cor-primaria;
+}
+
+.itemLista {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $espaco-3;
+  background-color: $cor-cinza-100;
+  border-radius: $raio-borda;
+  gap: $espaco-2;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemNome {
+  font-weight: $peso-semibold;
+  font-size: $tamanho-sm;
+  color: $cor-cinza-900;
+}
+
+.itemDetalhe {
+  font-size: $tamanho-xs;
+  color: $cor-cinza-600;
+}
+
+.itemAtendido {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: $tamanho-xs;
+  font-weight: $peso-bold;
+  color: $cor-status-em-casa;
+}
+
+.formInline {
+  display: flex;
+  flex-direction: column;
+  gap: $espaco-2;
+  padding-top: $espaco-4;
+  border-top: 1px dashed $cor-cinza-200;
+
+  input, select {
+    font-size: $tamanho-sm;
+  }
+}
