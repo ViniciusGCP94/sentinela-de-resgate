@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
-
 * {
   margin: 0;
   padding: 0;
@@ -37,26 +36,157 @@ ul {
   padding: 0 $espaco-6;
 }
 
-.tituloPagina {
-  font-size: 1.5rem;
-  font-weight: $peso-semibold;
-  color: $cor-primaria;
-  margin-bottom: $espaco-6;
-}
-
+// Layout principal
 .layout {
   display: flex;
   min-height: 100vh;
 
   &__conteudo {
     flex: 1;
-    margin-left: $largura-sidebar; 
-    padding-top: $altura-header;   
+    margin-left: $largura-sidebar;
+    padding-top: $altura-header;
   }
 
   &__pagina {
     padding: $espaco-6;
     max-width: 1200px;
-    margin: 0 auto; 
+    margin: 0 auto;
   }
+}
+
+// Títulos de página
+.titulo-pagina {
+  font-size: $tamanho-2xl;
+  font-weight: $peso-bold;
+  color: $cor-primaria;
+  margin-bottom: $espaco-2;
+}
+
+.subtitulo-pagina {
+  font-size: $tamanho-sm;
+  color: $cor-cinza-600;
+  margin-bottom: $espaco-6;
+}
+
+// Botões globais
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $espaco-2;
+  padding: $espaco-2 $espaco-4;
+  border-radius: $raio-borda;
+  font-size: $tamanho-sm;
+  font-weight: $peso-semibold;
+  font-family: $fonte-principal;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--primario {
+    background: $cor-primaria;
+    color: $cor-branco;
+
+    &:hover:not(:disabled) {
+      background: $cor-primaria-hover;
+    }
+  }
+
+  &--secundario {
+    background: $cor-branco;
+    color: $cor-primaria;
+    border: 1px solid $cor-primaria;
+
+    &:hover:not(:disabled) {
+      background: $cor-primaria-claro;
+    }
+  }
+
+  &--perigo {
+    background: $cor-secundaria;
+    color: $cor-branco;
+
+    &:hover:not(:disabled) {
+      background: $cor-secundaria-hover;
+    }
+  }
+
+  &--sm {
+    padding: $espaco-1 $espaco-3;
+    font-size: $tamanho-xs;
+  }
+}
+
+// Campos de formulário globais
+.campo {
+  margin-bottom: $espaco-4;
+
+  &__label {
+    display: block;
+    font-size: $tamanho-sm;
+    font-weight: $peso-semibold;
+    color: $cor-cinza-700;
+    margin-bottom: $espaco-1;
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    width: 100%;
+    padding: $espaco-2 $espaco-3;
+    border: 1px solid $cor-cinza-300;
+    border-radius: $raio-borda;
+    font-size: $tamanho-base;
+    font-family: $fonte-principal;
+    color: $cor-cinza-900;
+    background: $cor-branco;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $cor-primaria;
+      box-shadow: 0 0 0 3px rgba($cor-primaria, 0.1);
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+// Grid de formulário
+.grid-form {
+  display: grid;
+  gap: $espaco-4;
+
+  &--2 { grid-template-columns: 1fr 1fr; }
+  &--3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  @media (max-width: 576px) {
+    &--2, &--3 { grid-template-columns: 1fr; }
+  }
+}
+
+// Estados de loading e vazio
+.carregando {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $espaco-8;
+  color: $cor-primaria;
+}
+
+.estado-vazio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $espaco-8;
+  color: $cor-cinza-500;
+  font-size: $tamanho-base;
 }
