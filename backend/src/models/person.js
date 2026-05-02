@@ -29,6 +29,12 @@ const listarPessoas = async (filtros, usuario) => {
     return res.rows;
 };
 
+const buscarPorId = async (id) => {
+    const query = 'SELECT * FROM persons WHERE id = $1';
+    const res = await pool.query(query, [id]);
+    return res.rows[0]; 
+};
+
 const criarPessoa = async (dados, usuarioId) => {
     const { 
         name, cpf, birth_date, phone, address, 
@@ -67,4 +73,4 @@ const atualizarStatus = async (id, status) => {
     return res.rows[0];
 };
 
-export { listarPessoas, criarPessoa, atualizarStatus };
+export { listarPessoas, criarPessoa, atualizarStatus, buscarPorId };
