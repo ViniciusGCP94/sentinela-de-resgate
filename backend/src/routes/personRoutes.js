@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/', autenticar, personController.listar);
 
+router.get('/:id', autenticar, personController.buscarPorId);
+
 router.post('/', autenticar, autorizar('acs'), personController.criar);
 
 router.patch('/:id/status', autenticar, autorizar('defesa_civil'), personController.atualizarStatus);
