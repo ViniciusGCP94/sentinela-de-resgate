@@ -4,17 +4,24 @@ import { login as loginService } from '../services/authService'
 const AuthContext = createContext(null)
 
 const AuthProvider = ({ children }) => {
-  const [usuario, setUsuario] = useState(null) // Resetado para nulo
+  const [usuario, setUsuario] = useState(() => {
+    const usuarioSalvo = localStorage.getItem('usuario')
+    const token = localStorage.getItem('token')
+    
+    if (usuarioSalvo && token) {
+      return JSON.parse(usuarioSalvo)
+    }
+    return null
+  })
+
   const [carregando, setCarregando] = useState(false)
 
   useEffect(() => {
-    const usuarioSalvo = localStorage.getItem('usuario')
     const token = localStorage.getItem('token')
-
-    if (usuarioSalvo && token) {
-      setUsuario(JSON.parse(usuarioSalvo))
+    if (!token && usuario) {
+      setUsuario(null)
     }
-  }, [])
+  }, [usuario])
 
   const login = async (email, senha) => {
     try {
