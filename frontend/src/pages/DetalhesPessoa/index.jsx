@@ -73,6 +73,7 @@ const DetalhesPessoa = () => {
     }
   }
 
+
   if (carregando) return <Layout titulo="Detalhes"><div className="carregando">Carregando...</div></Layout>
   if (!pessoa) return <Layout titulo="Não encontrado"><div className="estado-vazio">Pessoa não encontrada.</div></Layout>
 

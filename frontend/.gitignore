@@ -23,3 +23,26 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# components não implementado ainda
+components/Header/Dashboard
+components/Header/DetalhesPessoa
+components/Header/Login
+components/Header/NovaPessoa
+components/Header/Pessoas
+components/PrivateRoute/Dashboard
+components/PrivateRoute/DetalhesPessoa
+components/PrivateRoute/Login
+components/PrivateRoute/NovaPessoa
+components/PrivateRoute/Pessoas
+components/Sidebar/Dashboard
+components/Sidebar/DetalhesPessoa
+components/Sidebar/Login
+components/Sidebar/NovaPessoa
+components/Sidebar/Pessoas
+components/StatusBadge/Dashboard
+components/StatusBadge/DetalhesPessoa
+components/StatusBadge/Login
+components/StatusBadge/NovaPessoa
+components/StatusBadge/Pessoas
+

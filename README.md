@@ -1,78 +1,170 @@
-# Sentinela de Resgate
+# 🛡️ Sentinela de Resgate
 
-O **Sentinela de Resgate** é uma plataforma de gestão de vulneráveis e logística humanitária desenhada para conectar o trabalho dos Agentes Comunitários de Saúde (ACS) com a prontidão operacional da Defesa Civil em cenários de desastres naturais.
+Sistema de gestão de pessoas vulneráveis em situações de enchente, desenvolvido como resposta direta aos problemas documentados nas enchentes do Rio Grande do Sul em 2024.
+
+A plataforma conecta **Agentes Comunitários de Saúde (ACS)**, que cadastram pessoas em campo antes e durante a crise, com a **Defesa Civil**, que monitora, coordena resgates e distribui recursos com base em dados reais.
+
+---
 
 ## 🚀 O Problema
-Em eventos como as enchentes no RS, a falta de dados centralizados gera dois grandes gargalos:
-1. A Defesa Civil não sabe quem são as pessoas que dependem de equipamentos vitais (como oxigênio) em cada bairro.
-2. Doações chegam aos abrigos de forma desorganizada, gerando excesso de itens em alguns locais e escassez em outros.
 
-## 🛠 Solução
-O sistema permite que o ACS utilize seu conhecimento prévio da comunidade para mapear necessidades antes da crise, permitindo que a Defesa Civil execute resgates e distribuições com precisão cirúrgica.
+Durante as enchentes do RS de 2024, dois problemas críticos foram documentados:
+
+1. **Defesa Civil operava sem dados prévios** — equipes chegavam aos bairros sem saber quem dependia de oxigênio, insulina ou outros equipamentos vitais, tornando o resgate reativo em vez de proativo.
+2. **Doações chegavam sem direcionamento** — alguns abrigos recebiam cobertores em excesso enquanto outros não tinham colchões, por falta de um canal centralizado de necessidades.
+
+---
+
+## 💡 A Solução
+
+O Sentinela de Resgate permite que ACS cadastrem pessoas vulneráveis **antes da crise acontecer**, com seus medicamentos, necessidades materiais e contato familiar. Quando a enchente chega, a Defesa Civil acessa um painel com dados precisos por bairro, sabe exatamente onde ir e o que levar.
+
+---
+
+## 🖥️ Demonstração
+
+**Fluxo ACS:**
+Login → Cadastrar pessoa → Adicionar medicamentos → Registrar necessidades materiais
+
+**Fluxo Defesa Civil:**
+Login → Painel com indicadores → Filtrar por bairro/status → Atualizar status de resgate → Marcar necessidades como atendidas
+
+---
 
 ## 📊 Banco de Dados
-A modelagem foi pensada para priorizar a vida e a transparência:
-- **Tabela Persons:** Coração do sistema, com status de resgate, flags de equipamentos vitais e contato familiar para localização de desaparecidos.
-- **Tabela Medications:** Medicamentos de uso contínuo vinculados a cada pessoa, permitindo que equipes de resgate saibam o que levar antes de chegar ao local.
-- **Tabela Material Needs:** Necessidades materiais individuais com rastreamento de atendimento, resolvendo o desequilíbrio de doações documentado nas enchentes do RS de 2024.
-- **LGPD:** Registro obrigatório de consentimento para tratamento de dados sensíveis.
-- **Normalização:** Separação de medicamentos e necessidades materiais em tabelas próprias para relatórios logísticos precisos.
 
-> [Visualize o Diagrama de Entidade-Relacionamento aqui](https://dbdiagram.io/d/Sentinela-de-Resgate-69eb8014ddb9320fdc42d3f6)
+Modelagem pensada para priorizar a vida e a transparência em situações de emergência.
 
+| Tabela | Responsabilidade |
+|--------|-----------------|
+| `users` | Agentes do sistema com dois perfis: `acs` e `defesa_civil` |
+| `persons` | Núcleo do sistema — localização, status de resgate, equipamentos vitais e contato familiar |
+| `medications` | Medicamentos de uso contínuo por pessoa — equipes sabem o que levar antes de chegar |
+| `material_needs` | Necessidades materiais com rastreamento de atendimento (`fulfilled`) |
 
+**Decisões de modelagem:**
+- Campo `consent` obrigatório em `persons` — conformidade com a LGPD
+- `ON DELETE CASCADE` em medications e material_needs — sem registros órfãos
+- `family_contact_name` e `family_contact_phone` — permite acionar familiar quando pessoa está com status `nao_localizada`
+- Campo `fulfilled_at` em material_needs — rastreabilidade de quando cada necessidade foi atendida
 
-## 🖥️ Backend (Arquitetura e Implementação)
+> [Visualize o Diagrama de Entidade-Relacionamento](https://dbdiagram.io/d/Sentinela-de-Resgate-69eb8014ddb9320fdc42d3f6)
 
-O núcleo da aplicação foi desenvolvido seguindo o padrão **MVC (Model-View-Controller)**, garantindo uma separação clara entre a lógica de persistência, as regras de negócio e a exposição de dados.
+---
 
-### 🛠️ Stack Técnica
-- **Runtime:** Node.js com suporte nativo a **ES Modules** (`import/export`).
-- **Framework:** Express 5.
-- **Banco de Dados:** **PostgreSQL** com `pg-pool` para gestão eficiente de conexões.
-- **Segurança:**
-  - `bcryptjs`: Hashing de senhas para armazenamento seguro.
-  - `jsonwebtoken (JWT)`: Autenticação stateless com tokens configurados para expiração em **8 horas**.
-- **Gestão de Ambiente:** `dotenv` para proteção de segredos e `cors` para controle de origens.
+## ⚙️ Backend
 
-### 🔒 Segurança e Governança de Acesso (RBAC)
-O sistema implementa **Controle de Acesso Baseado em Funções (Role-Based Access Control)**, protegendo informações sensíveis de cidadãos em áreas de risco:
+Desenvolvido com arquitetura **MVC**, garantindo separação clara entre persistência, regras de negócio e exposição de dados.
 
-- **Middleware `autenticar`:** Intercepta requisições e valida a integridade do Bearer Token.
-- **Middleware `autorizar`:** Valida se o cargo do usuário (`role`) possui permissão para o recurso solicitado.
-- **Fluxo de Permissões:**
-  - **ACS:** Cadastra pessoas, registra medicamentos e necessidades materiais.
-  - **Defesa Civil:** Visão global de todos os cadastros, atualiza status de resgate e marca necessidades como atendidas.
+### Stack
+- **Runtime:** Node.js com ES Modules (`import/export`)
+- **Framework:** Express 5
+- **Banco de Dados:** PostgreSQL com `pg-pool`
+- **Autenticação:** JWT com expiração de 8 horas + bcryptjs
+- **Ambiente:** dotenv + cors
 
-### 🏗️ Estrutura de Pastas do Backend
-```text
+### Por que JWT com 8 horas?
+8 horas corresponde a um turno de trabalho em campo. Se um tablet da Defesa Civil for perdido durante uma operação, o token expira sozinho sem necessidade de revogação manual.
+
+### Segurança — RBAC (Role-Based Access Control)
+
+Dois middlewares separados espelham responsabilidades distintas:
+
+- **`autenticar`** — verifica identidade via Bearer Token
+- **`autorizar`** — verifica permissão por cargo
+
+| Perfil | Permissões |
+|--------|-----------|
+| **ACS** | Cadastrar pessoas, adicionar/remover medicamentos e necessidades materiais |
+| **Defesa Civil** | Visão global, atualizar status de resgate, marcar necessidades como atendidas |
+
+### Estrutura de pastas
+
+```
 backend/src/
-├── config/      # Configuração da conexão com PostgreSQL (pool)
-├── controllers/ # Lógica de processamento das requisições
-├── middlewares/ # Camada de segurança (JWT e RBAC)
-├── models/      # Queries SQL e interação com o banco
-├── routes/      # Definição e proteção dos endpoints
-└── app.js       # Configuração global do Express
+├── config/       # Conexão com PostgreSQL (pool)
+├── controllers/  # Lógica de negócio
+├── middlewares/  # Autenticação e autorização (RBAC)
+├── models/       # Queries SQL
+├── routes/       # Endpoints protegidos
+└── app.js        # Configuração global do Express
 ```
 
-### 📡 API Endpoints
+### Endpoints da API
 
 | Método | Rota | Descrição | Acesso |
-| :--- | :--- | :--- | :--- |
+|--------|------|-----------|--------|
 | `POST` | `/api/auth/login` | Autenticação e geração de token | Público |
 | `POST` | `/api/usuarios/registro` | Registro de novos agentes | Público |
-| `GET` | `/api/usuarios/` | Listagem global de agentes | **Defesa Civil** |
-| `GET` | `/api/health` | Status de saúde do servidor | Público |
-| `POST` | `/api/pessoas/` | Cadastro de pessoa vulnerável | **ACS** |
-| `GET` | `/api/pessoas/` | Listagem com filtros de bairro e status | **Autenticado** |
-| `PATCH` | `/api/pessoas/:id/status` | Atualização do status de resgate | **Defesa Civil** |
-| `POST` | `/api/medicamentos/` | Registro de medicamento de uso contínuo | **ACS** |
-| `GET` | `/api/medicamentos/:person_id` | Listagem de medicamentos por pessoa | **Autenticado** |
-| `DELETE` | `/api/medicamentos/:id` | Remoção de medicamento | **ACS** |
-| `POST` | `/api/materiais/` | Registro de necessidade material | **ACS** |
-| `GET` | `/api/materiais/:person_id` | Listagem de necessidades por pessoa | **Autenticado** |
-| `PATCH` | `/api/materiais/:id/atender` | Marca necessidade como atendida | **Defesa Civil** |
-| `DELETE` | `/api/materiais/:id` | Remoção de necessidade material | **ACS** |
+| `GET` | `/api/usuarios/` | Listagem de agentes | Defesa Civil |
+| `GET` | `/api/health` | Status do servidor | Público |
+| `POST` | `/api/pessoas/` | Cadastro de pessoa vulnerável | ACS |
+| `GET` | `/api/pessoas/` | Listagem com filtros de bairro e status | Autenticado |
+| `PATCH` | `/api/pessoas/:id/status` | Atualização do status de resgate | Defesa Civil |
+| `POST` | `/api/medicamentos/` | Registro de medicamento | ACS |
+| `GET` | `/api/medicamentos/:person_id` | Medicamentos por pessoa | Autenticado |
+| `DELETE` | `/api/medicamentos/:id` | Remoção de medicamento | ACS |
+| `POST` | `/api/materiais/` | Registro de necessidade material | ACS |
+| `GET` | `/api/materiais/:person_id` | Necessidades por pessoa | Autenticado |
+| `PATCH` | `/api/materiais/:id/atender` | Marca necessidade como atendida | Defesa Civil |
+| `DELETE` | `/api/materiais/:id` | Remoção de necessidade | ACS |
+
+---
+
+## 🎨 Frontend
+
+Interface desenvolvida com identidade visual do **Governo do Rio Grande do Sul**, priorizando legibilidade e clareza em situações de emergência.
+
+### Stack
+- **Framework:** React 18 + Vite
+- **Estilização:** SCSS com CSS Modules e design system próprio
+- **Roteamento:** React Router DOM v6
+- **HTTP:** Axios com interceptor de token JWT
+- **Estado global:** Context API nativa (sem Redux ou Zustand)
+
+### Por que SCSS e não Tailwind?
+SCSS permite variáveis semânticas como `$cor-status-nao-localizada` que comunicam **intenção**, não apenas aparência. Em um sistema governamental de emergência, clareza de nomenclatura é tão importante quanto clareza visual.
+
+### Por que Context API e não Zustand?
+O estado de autenticação é simples — usuário logado, cargo e funções de login/logout. Adicionar uma dependência externa para isso seria over-engineering. Menos dependências significa menos superfície de ataque e manutenção mais simples.
+
+### Arquitetura de componentes
+
+```
+frontend/src/
+├── components/
+│   ├── Header/        # Cabeçalho com nome, cargo e logout
+│   ├── Sidebar/       # Navegação diferente por cargo (ACS vs Defesa Civil)
+│   ├── StatusBadge/   # Badge colorido semântico por status de resgate
+│   ├── Layout/        # Wrapper de estrutura para páginas autenticadas
+│   └── PrivateRoute/  # Proteção de rotas por autenticação e cargo
+├── context/
+│   └── AuthContext    # Estado global de autenticação
+├── pages/
+│   ├── Login/         # Login institucional do Governo RS
+│   ├── Dashboard/     # Painel com indicadores e alertas
+│   ├── Pessoas/       # Listagem com filtros por bairro e status
+│   ├── NovaPessoa/    # Formulário de cadastro com seções e LGPD
+│   └── DetalhesPessoa/# Gestão operacional por pessoa
+├── services/          # Camada de comunicação com a API (SRP)
+└── styles/            # Design system — variáveis, mixins, global
+```
+
+### Decisões de UX baseadas no problema real
+
+**Redirecionamento por cargo no login:** ACS vai para `/pessoas` (sua função é cadastrar), Defesa Civil vai para `/dashboard` (sua função é monitorar). A interface reflete diretamente as responsabilidades operacionais.
+
+**Sidebar com menus diferentes por cargo:** ACS não vê o painel geral — reduziria ruído e focaria o agente no que importa em campo.
+
+**Coluna de contato familiar na listagem:** Durante as enchentes do RS, equipes precisavam de acesso imediato ao contato de parentes para localizar desaparecidos. Esse dado fica visível sem precisar abrir cada cadastro.
+
+**Dashboard destaca `nao_localizada` para Defesa Civil:** O caso mais urgente operacionalmente aparece em destaque automático, sem precisar filtrar.
+
+**Formulário com 5 seções e botão bloqueado sem LGPD:** Impossível cadastrar sem consentimento registrado — conformidade na interface reflete a obrigação legal.
+
+**Promise.all na tela de detalhes:** Pessoa, medicamentos e materiais carregam em paralelo. Em situações de crise, segundos importam.
+
+---
 
 ## ⚙️ Como rodar o projeto
 
@@ -80,24 +172,21 @@ backend/src/
 - Node.js 18+
 - PostgreSQL 14+
 
-### Instalação
+### Backend
 
 ```bash
-# Clone o repositório
-git clone https://github.com/ViniciusGCP94/sentinela-de-resgate.git
-
 # Entre na pasta do backend
 cd backend
 
 # Instale as dependências
 npm install
 
-# Copie o arquivo de ambiente
+# Configure o ambiente
 cp .env.example .env
-# Preencha as variáveis no .env com seus dados locais
+# Preencha as variáveis no .env
 
 # Configure o banco de dados
-# Execute database/schema.sql e depois database/seed.sql no PostgreSQL
+# Execute database/schema.sql e depois database/seed.sql no seu cliente PostgreSQL
 
 # Rode o servidor
 npm run dev
@@ -105,130 +194,87 @@ npm run dev
 
 O servidor estará disponível em `http://localhost:3000`.
 
+### Frontend
 
-## 🎨 Frontend (Em desenvolvimento)
+```bash
+# Entre na pasta do frontend
+cd frontend
 
-### Stack
-- **Framework:** React 18 com Vite
-- **Estilização:** SCSS com variáveis, mixins e BEM
-- **Roteamento:** React Router DOM v6
-- **HTTP:** Axios com interceptor de token JWT
+# Instale as dependências
+npm install
 
-### Decisão de design
-A identidade visual segue o padrão do Governo do RS — azul `#003366` como cor primária,
-tipografia Source Sans 3 para legibilidade em situações de emergência, e badges coloridos
-por status de resgate para leitura rápida em campo.
+# Configure o ambiente
+cp .env.example .env
+# VITE_API_URL=http://localhost:3000/api
 
-### Por que SCSS e não Tailwind?
-SCSS permite criar um sistema de design próprio com variáveis semânticas (`$cor-status-nao-localizada`)
-que comunicam intenção — não apenas aparência. Em um sistema governamental, clareza de
-nomenclatura é tão importante quanto clareza visual.
+# Rode o servidor de desenvolvimento
+npm run dev
+```
 
-### Arquitetura de dados
+A aplicação estará disponível em `http://localhost:5173`.
 
-**Services separados por domínio** (`pessoaService`, `medicamentoService`, `materialService`) 
-espelham a separação de controllers no backend. Cada service tem uma única responsabilidade — SRP 
-aplicado no frontend da mesma forma que no backend.
+### Variáveis de ambiente necessárias
 
-**AuthContext** gerencia o estado global de autenticação. A decisão de usar Context API nativa 
-(sem Zustand ou Redux) foi deliberada: o estado de autenticação é simples e não justifica 
-uma dependência externa.
+**backend/.env**
+```
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=sua_senha
+DB_NAME=db_sentinelaResgate
+JWT_SECRET=sua_chave_secreta
+```
 
-**PrivateRoute** espelha os middlewares `autenticar` e `autorizar` do backend no frontend. 
-A segurança real está no backend, mas o frontend redireciona antes de fazer a requisição — 
-melhor UX e menos carga no servidor.
+**frontend/.env**
+```
+VITE_API_URL=http://localhost:3000/api
+```
 
-## 🧪 Metodologia de Teste e Validação
+### Usuários para teste
 
-Para garantir a integridade da arquitetura antes de avançar para componentes de dados, realizei um teste de integração visual do **Dashboard**.
+Após executar o `seed.sql`:
 
-### Descrição do Teste
-O objetivo foi validar se o `AuthContext` estava provendo os dados corretamente para o `Header` e se o `Layout` estava posicionando a `Sidebar` sem sobrepor o conteúdo principal.
+| E-mail | Senha | Cargo |
+|--------|-------|-------|
+| `vini@acs.com` | `senha_hash_provisoria` | ACS |
+| `defesa@rs.gov.br` | `senha_hash_provisoria` | Defesa Civil |
 
-**Procedimentos realizados:**
-1. **Mock de Autenticação:** Forcei um estado de usuário autenticado no `AuthContext` para ignorar o redirecionamento do `PrivateRoute`.
-2. **Composição de Layout:** Inseri temporariamente o componente `Layout` dentro da rota `/dashboard` no `App.jsx` para validar a moldura do sistema.
-
-
-### Resultado do Teste
-A interface foi renderizada com sucesso, confirmando que:
-* As variáveis do RS (Cores e Tipografia) estão carregando corretamente.
-* O layout fixo é responsivo à largura da sidebar definida.
+> As senhas do seed estão em texto puro. Para criar usuários com senha hasheada, use a rota `POST /api/usuarios/registro`.
 
 ---
 
-## 🛠️ Reset de Ambiente (Pós-Teste)
-Após a confirmação de que a estrutura base está 100% funcional, **reverti os arquivos para o estado planejado no cronograma**:
-* Removi as chamadas temporárias do `Layout` no `App.jsx`.
+## 🗂️ Estrutura do repositório
 
-### 🏗️ Componentes de Layout
-
-Nesta etapa, consolidei a arquitetura visual do projeto, garantindo que o sistema seja escalável e consistente.
-
-- **Sidebar**: Implementa um menu dinâmico que reflete o **RBAC (Role-Based Access Control)** do backend. Agentes de Saúde (ACS) visualizam ferramentas de cadastro, enquanto a Defesa Civil foca em monitoramento e logística.
-- **StatusBadge**: Centraliza o mapeamento de cores semânticas ($cor-status-resgatada, etc.). Seguindo o **SRP**, qualquer alteração em regras de negócio de status é feita exclusivamente neste componente, impactando todo o sistema.
-- **Layout (Wrapper)**: Funciona como um componente de ordem superior que encapsula o Header e a Sidebar. Isso permite que novas páginas sejam criadas sem a necessidade de repetir o código da estrutura global.
-
-**Resultado Esperado:** Interface limpa, seguindo a identidade visual do RS, com navegação protegida e estados de usuário validados.
-
-### 🖥️ Tela de Login e Autenticação (Etapa 4)
-
-Nesta etapa, a aplicação deixou de usar dados estáticos (mocks) e passou a integrar-se diretamente com o backend real, implementando o fluxo completo de autenticação e controle de acesso.
-
-#### Implementações Técnicas:
-* **Layout Institucional**: Criação de uma interface de duas colunas, utilizando um banner com a identidade visual do Governo do RS à esquerda e o formulário de acesso à direita.
-* **Redirecionamento por Cargo (RBAC)**: O sistema agora direciona o usuário automaticamente com base no seu `role` retornado pela API:
-    * **ACS (Agente Comunitário de Saúde)**: Redirecionado para `/pessoas`, focando na sua função de cadastro.
-    * **Defesa Civil**: Redirecionado para o `/dashboard` para monitoramento e logística.
-* **Persistência de Sessão**: Integração do `AuthContext` com o `localStorage`, garantindo que o token JWT e os dados do usuário permaneçam ativos após o recarregamento da página (F5).
-* **Segurança no Frontend**: Utilização do componente `PrivateRoute` para proteger rotas internas, permitindo o acesso apenas a usuários com tokens válidos.
-
-#### Evolução do Design System (SCSS):
-As variáveis globais foram expandidas para suportar a nova interface e estados de interação:
-* **Escalabilidade**: Adição de variáveis de hover (`$cor-primaria-hover`), novos tons de cinza (`$cor-cinza-50`, `$cor-cinza-300`, `$cor-cinza-900`) e tamanhos de fonte (`$tamanho-2xl`, `$tamanho-3xl`).
-* **Consistência**: Uso exclusivo de variáveis semânticas, garantindo que qualquer alteração na identidade visual seja replicada instantaneamente em todo o sistema.
-
-### 📊 Etapa 5: Integração de Dados e Dashboard Dinâmico
-
-Nesta etapa, a aplicação avançou para o consumo real de dados da API, substituindo os placeholders por informações dinâmicas do banco de dados PostgreSQL.
-
-#### Implementações Técnicas:
-* **Dashboard Analítico**: Implementação de cards de resumo que realizam requisições ao backend para exibir o total de cadastros, resgates efetuados e ocupação de abrigos em tempo real.
-* **Listagem de Pessoas**: Criação de uma tabela interativa utilizando o `pessoaService`, com suporte a renderização condicional de estilos baseada no status do cidadão.
-* **Sistema de Filtros**: Desenvolvimento de lógica de busca por **Bairro** e filtragem por **Status**, permitindo que o usuário refine a visualização dos dados sem recarregar a página.
-* **Sincronização de Rotas**: Atualização do `App.jsx` para incluir as rotas de `/dashboard` e `/pessoas`, protegidas pelo middleware de autenticação.
-
-#### Evolução do Design System (SCSS):
-* **Cores Semânticas**: Adição da variável `$cor-cinza-800` para melhorar o contraste de textos e ajuste dos badges de status para facilitar a leitura rápida de triagem.
-* **Layout Fluido**: Ajuste dos componentes de `Layout` e `Sidebar` para garantir que o Dashboard e a Listagem ocupem a área útil da tela sem quebras de design.
-
-#### Visibilidade por Perfil (RBAC):
-* **Filtro de Escopo**: O sistema foi configurado para que o Agente de Saúde (ACS) visualize apenas as pessoas cadastradas sob sua responsabilidade, enquanto o perfil de Defesa Civil mantém a visão macro das estatísticas do estado.
-
-### 📝 Etapa 6: Formulário de Cadastro de Pessoa
-
-Implementação do formulário principal para o trabalho de campo do Agente Comunitário de Saúde (ACS).
-
-#### Implementações Técnicas:
-* **Arquitetura Modular**: O formulário foi dividido em 5 seções lógicas (Dados Pessoais, Endereço, Contato Familiar, Necessidades Especiais e LGPD) para reduzir a carga cognitiva durante o preenchimento em campo.
-* **Campos Condicionais**: A seção de "Equipamento Vital" só exibe campos de descrição se o checkbox for marcado, mantendo a interface limpa e focada.
-* **Conformidade LGPD**: O botão de submissão permanece bloqueado até que o termo de consentimento seja aceito, garantindo segurança jurídica no tratamento de dados sensíveis.
-* **Navegação Pós-Cadastro**: Após o sucesso, o sistema redireciona automaticamente para a tela de detalhes da pessoa recém-criada, facilitando a adição imediata de medicamentos ou materiais se necessário.
-
-#### Evolução do Design System (SCSS):
-* **Componentização Visual**: Uso de mixins para criar as seções em estilo "Card", mantendo a consistência com o restante da aplicação.
-* **Responsividade**: Rodapé do formulário adaptável para dispositivos móveis, garantindo que os botões de ação estejam sempre acessíveis ao toque.
-
-#### Estrutura de Pastas Atualizada:
-```text
-frontend/src/
-├── components/   # Layout, Sidebar, StatusBadge, PrivateRoute
-├── context/      # AuthContext (Gestão de tokens e permissões)
-├── pages/
-│   ├── Login/    # Login institucional do Governo RS
-│   ├── Dashboard/# Monitoramento de indicadores
-│   ├── Pessoas/  # Tabela de gestão e filtros
-│   └── NovaPessoa/# Formulário de cadastro de vulneráveis (ACS)
-├── services/     #pessoaService (integração Axios)
-└── styles/       # Variáveis Globais, Mixins e Identidade Visual RS
 ```
+sentinela-de-resgate/
+├── backend/          # API Node.js + Express
+├── frontend/         # Interface React
+├── database/
+│   ├── schema.sql    # Estrutura das tabelas
+│   └── seed.sql      # Dados iniciais de teste
+└── README.md
+```
+
+---
+
+## 🔮 Roadmap — Versão 2.0
+
+Funcionalidades planejadas documentadas como decisão técnica para não implementar na v1.0 por escopo:
+
+- Cruzamento automático de `nao_localizada` com banco de dados para acionar familiar via notificação
+- Relatório de medicamentos necessários por bairro para resgates proativos
+- Integração conceitual com e-SUS APS para importar dados já existentes das UBS
+- Módulo de abrigos com capacidade e vagas disponíveis
+- Responsividade mobile completa para uso em campo
+- Deploy em produção (backend no Render, frontend na Vercel)
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Vinícius** como projeto de portfólio fullstack.
+
+Inspirado diretamente pelas enchentes do RS de 2024 e pelos problemas reais documentados durante a crise — onde a falta de dados centralizados custou tempo, recursos e vidas.
+
+[![GitHub](https://img.shields.io/badge/GitHub-ViniciusGCP94-blue?logo=github)](https://github.com/ViniciusGCP94/sentinela-de-resgate)
