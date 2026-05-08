@@ -6,6 +6,16 @@ A plataforma conecta **Agentes Comunitários de Saúde (ACS)**, que cadastram pe
 
 ---
 
+## 🌐 Deploy
+
+A API está em produção e pode ser testada sem precisar clonar o repositório:
+
+🔗 **API:** https://sentinela-de-resgate-production.up.railway.app
+
+> Banco de dados PostgreSQL hospedado no Railway com SSL obrigatório.
+
+---
+
 ## 🚀 O Problema
 
 Durante as enchentes do RS de 2024, dois problemas críticos foram documentados:
@@ -218,11 +228,7 @@ A aplicação estará disponível em `http://localhost:5173`.
 **backend/.env**
 ```
 PORT=3000
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=sua_senha
-DB_NAME=db_sentinelaResgate
+DATABASE_URL=postgresql://usuario:senha@host:porta/banco
 JWT_SECRET=sua_chave_secreta
 ```
 
@@ -233,14 +239,18 @@ VITE_API_URL=http://localhost:3000/api
 
 ### Usuários para teste
 
-Após executar o `seed.sql`:
+As senhas do seed estão em texto puro e **não funcionam com bcrypt**. Antes de testar o login, crie um usuário real pela rota `POST /api/usuarios/registro`:
 
-| E-mail | Senha | Cargo |
-|--------|-------|-------|
-| `vini@acs.com` | `senha_hash_provisoria` | ACS |
-| `defesa@rs.gov.br` | `senha_hash_provisoria` | Defesa Civil |
+```json
+{
+  "nome": "Seu Nome",
+  "email": "seu@email.com",
+  "senha": "sua_senha",
+  "cargo": "acs"
+}
+```
 
-> As senhas do seed estão em texto puro. Para criar usuários com senha hasheada, use a rota `POST /api/usuarios/registro`.
+Substitua `"cargo"` por `"defesa_civil"` para criar um usuário da Defesa Civil.
 
 ---
 
@@ -267,14 +277,15 @@ Funcionalidades planejadas documentadas como decisão técnica para não impleme
 - Integração conceitual com e-SUS APS para importar dados já existentes das UBS
 - Módulo de abrigos com capacidade e vagas disponíveis
 - Responsividade mobile completa para uso em campo
-- Deploy em produção (backend no Render, frontend na Vercel)
+- Deploy do frontend (Vercel ou Netlify)
 
 ---
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Vinícius** como projeto de portfólio fullstack.
+Desenvolvido por **Vinícius Pereira** como projeto de portfólio fullstack.
 
 Inspirado diretamente pelas enchentes do RS de 2024 e pelos problemas reais documentados durante a crise — onde a falta de dados centralizados custou tempo, recursos e vidas.
 
 [![GitHub](https://img.shields.io/badge/GitHub-ViniciusGCP94-blue?logo=github)](https://github.com/ViniciusGCP94/sentinela-de-resgate)
+[![API](https://img.shields.io/badge/API-Railway-purple?logo=railway)](https://sentinela-de-resgate-production.up.railway.app)
