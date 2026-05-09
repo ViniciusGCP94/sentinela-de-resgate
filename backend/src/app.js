@@ -10,7 +10,12 @@ import materialRoutes from './routes/materialRoutes.js';
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ 
+  origin: [
+    'http://localhost:5173',
+    'https://sentinela-de-resgate.vercel.app' 
+  ]
+}));
 app.use(express.json());
 
 app.use('/api/usuarios', userRoutes);
