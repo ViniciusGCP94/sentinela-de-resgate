@@ -51,8 +51,8 @@ const AuthProvider = ({ children }) => {
       login, 
       logout, 
       carregando, 
-      ehAcs, 
-      ehDefesaCivil 
+      isAcs, 
+      isDefesaCivil 
     }}>
       {children}
     </AuthContext.Provider>
