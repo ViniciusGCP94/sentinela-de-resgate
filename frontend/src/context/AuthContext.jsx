@@ -42,8 +42,8 @@ const AuthProvider = ({ children }) => {
     setUsuario(null)
   }
 
-  const ehAcs = usuario?.role === 'acs'
-  const ehDefesaCivil = usuario?.role === 'defesa_civil'
+  const isAcs = usuario?.role === 'acs'
+  const isDefesaCivil = usuario?.role === 'defesa_civil'
 
   return (
     <AuthContext.Provider value={{ 
