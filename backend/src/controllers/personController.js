@@ -3,7 +3,7 @@ import * as personModel from '../models/person.js';
 const listar = async (req, res) => {
     try {
         const { neighborhood, status } = req.query;
-        const pessoas = await personModel.listarPessoas({ neighborhood, status }, req.usuario);
+        const pessoas = await personModel.listarPessoas({ neighborhood, status });
         res.json(pessoas);
     } catch (erro) {
         console.error('Erro ao listar pessoas:', erro);

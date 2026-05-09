@@ -5,11 +5,6 @@ const listarPessoas = async (filtros, usuario) => {
     const values = [];
     const condicoes = [];
 
-    if (usuario.role === 'acs') {
-        condicoes.push('registered_by = $' + (values.length + 1));
-        values.push(usuario.id);
-    }
-
     if (filtros.neighborhood) {
         condicoes.push('neighborhood = $' + (values.length + 1));
         values.push(filtros.neighborhood);
