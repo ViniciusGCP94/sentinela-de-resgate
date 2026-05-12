@@ -14,10 +14,10 @@ const menuDefesaCivil = [
 ]
  
 const Sidebar = ({ menuAberto, aoFechar }) => {
-  const { ehAcs, ehDefesaCivil } = useAuth()
+  const { isAcs, isDefesaCivil } = useAuth()
  
-  const itensMenu = ehAcs ? menuAcs : ehDefesaCivil ? menuDefesaCivil : []
-  const labelCargo = ehAcs ? 'Agente Comunitário' : 'Defesa Civil'
+  const itensMenu = isAcs ? menuAcs : isDefesaCivil ? menuDefesaCivil : []
+  const labelCargo = isAcs ? 'Agente Comunitário' : 'Defesa Civil'
  
   return (
     <aside className={`${styles.sidebar} ${menuAberto ? styles.aberto : ''}`}>
