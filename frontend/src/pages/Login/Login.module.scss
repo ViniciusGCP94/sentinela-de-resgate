@@ -4,6 +4,11 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto 1fr; 
+  }
 }
 
 .banner {
@@ -25,6 +30,30 @@
     background: rgba(255,255,255,0.03);
     top: -100px;
     right: -100px;
+  }
+
+  @media (max-width: 768px) {
+    padding: $espaco-6 $espaco-4;
+    min-height: auto; 
+    
+    .bannerLogo {
+      width: 60px; 
+      height: 60px;
+      font-size: 1.8rem;
+      margin-bottom: $espaco-3;
+    }
+
+    .bannerTitulo {
+      font-size: $tamanho-2xl; 
+    }
+
+    .bannerSubtitulo {
+      display: none; 
+    }
+
+    .bannerRodape {
+      display: none; 
+    }
   }
 }
 
@@ -76,6 +105,13 @@
   flex-direction: column;
   padding: $espaco-8;
   background: $cor-cinza-50;
+
+  @media (max-width: 768px) {
+    padding: $espaco-6 $espaco-4;
+    background: $cor-branco; 
+    justify-content: flex-start; 
+    padding-top: $espaco-8;
+  }
 }
 
 .caixa {
@@ -127,6 +163,11 @@
     border-color: $cor-primaria;
     box-shadow: 0 0 0 3px rgba($cor-primaria, 0.1);
   }
+
+  @media (max-width: 768px) {
+    padding: $espaco-3; 
+    font-size: 16px; 
+  }
 }
 
 .btnEntrar {
@@ -150,6 +191,10 @@
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    padding: $espaco-4; 
   }
 }
 
