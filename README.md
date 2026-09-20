@@ -8,8 +8,8 @@ A plataforma conecta **Agentes Comunitários de Saúde (ACS)**, que cadastram pe
 
 ## 🌐 Deploy
 
-- 🔗 **API:** https://sentinela-de-resgate-api.onrender.com 
 - 🔗 **Frontend:** https://sentinela-de-resgate.vercel.app  
+- 🔗 **API:** https://sentinela-de-resgate-api.onrender.com 
 - 🔗 **Documentação:** https://documenter.getpostman.com/view/53429133/2sBXqNkHiY
 
 
