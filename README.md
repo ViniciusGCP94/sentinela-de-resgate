@@ -8,9 +8,9 @@ A plataforma conecta **Agentes Comunitários de Saúde (ACS)**, que cadastram pe
 
 ## 🌐 Deploy
 
-🔗 **API:** https://sentinela-de-resgate-api.onrender.com 
-🔗 **Frontend:** https://sentinela-de-resgate.vercel.app  
-🔗 **Documentação:** https://documenter.getpostman.com/view/53429133/2sBXqNkHiY
+- 🔗 **API:** https://sentinela-de-resgate-api.onrender.com 
+- 🔗 **Frontend:** https://sentinela-de-resgate.vercel.app  
+- 🔗 **Documentação:** https://documenter.getpostman.com/view/53429133/2sBXqNkHiY
 
 
 | Camada | Serviço |
