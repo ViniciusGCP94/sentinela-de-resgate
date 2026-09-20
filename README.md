@@ -8,9 +8,18 @@ A plataforma conecta **Agentes Comunitários de Saúde (ACS)**, que cadastram pe
 
 ## 🌐 Deploy
 
-🔗 **API:** https://sentinela-de-resgate-production.up.railway.app  
+🔗 **API:** https://sentinela-de-resgate-api.onrender.com 
 🔗 **Frontend:** https://sentinela-de-resgate.vercel.app  
 🔗 **Documentação:** https://documenter.getpostman.com/view/53429133/2sBXqNkHiY
+
+
+| Camada | Serviço |
+|--------|---------|
+| Frontend | Vercel |
+| API | Render |
+| Banco de dados | Neon (PostgreSQL) |
+
+> ⏱️ A API roda no plano gratuito do Render e dorme após alguns minutos sem uso. O primeiro acesso pode levar cerca de 1 minuto para responder.
 
 ---
 
@@ -67,7 +76,7 @@ Desenvolvido com arquitetura **MVC**, garantindo separação clara entre persist
 ### Stack
 - **Runtime:** Node.js com ES Modules (`import/export`)
 - **Framework:** Express 5
-- **Banco de Dados:** PostgreSQL com `pg-pool`
+- **Banco de Dados:** PostgreSQL com `pg-pool` (Neon em produção)
 - **Autenticação:** JWT com expiração de 8 horas + bcryptjs
 - **Ambiente:** dotenv + cors
 
@@ -228,7 +237,8 @@ A aplicação estará disponível em `http://localhost:5173`.
 **backend/.env**
 ```
 PORT=3000
-DATABASE_URL=postgresql://usuario:senha@host:porta/banco
+DATABASE_URL=postgresql://usuario:senha@host:porta/banco 
+# No Neon, a string precisa terminar com ?sslmode=require 
 JWT_SECRET=sua_chave_secreta
 ```
 
@@ -277,7 +287,6 @@ Funcionalidades planejadas documentadas como decisão técnica para não impleme
 - Integração conceitual com e-SUS APS para importar dados já existentes das UBS
 - Módulo de abrigos com capacidade e vagas disponíveis
 - Responsividade mobile completa para uso em campo
-- Deploy do frontend (Vercel)
 
 ---
 
@@ -288,4 +297,4 @@ Desenvolvido por **Vinícius Pereira** como projeto de portfólio fullstack.
 Inspirado diretamente pelas enchentes do RS de 2024 e pelos problemas reais documentados durante a crise — onde a falta de dados centralizados custou tempo, recursos e vidas.
 
 [![GitHub](https://img.shields.io/badge/GitHub-ViniciusGCP94-blue?logo=github)](https://github.com/ViniciusGCP94/sentinela-de-resgate)
-[![API](https://img.shields.io/badge/API-Railway-purple?logo=railway)](https://sentinela-de-resgate-production.up.railway.app)
+[![API](https://img.shields.io/badge/API-Render-46E3B7?logo=render&logoColor=white)](https://sentinela-de-resgate-api.onrender.com)
