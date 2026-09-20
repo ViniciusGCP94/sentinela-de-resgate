@@ -1,29 +1,30 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { login as loginService } from '../services/authService'
 
 const AuthContext = createContext(null)
 
-const AuthProvider = ({ children }) => {
-  const [usuario, setUsuario] = useState(() => {
+
+const lerUsuarioSalvo = () => {
+  try {
     const usuarioSalvo = localStorage.getItem('usuario')
     const token = localStorage.getItem('token')
-    
+
     if (usuarioSalvo && token) {
       return JSON.parse(usuarioSalvo)
     }
-    return null
-  })
+  } catch {
+    localStorage.removeItem('token')
+    localStorage.removeItem('usuario')
+  }
+  return null
+}
 
+export const AuthProvider = ({ children }) => {
+  const [usuario, setUsuario] = useState(lerUsuarioSalvo)
   const [carregando, setCarregando] = useState(false)
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token && usuario) {
-      setUsuario(null)
-    }
-  }, [usuario])
-
   const login = async (email, senha) => {
+    setCarregando(true)
     try {
       const dados = await loginService(email, senha)
       localStorage.setItem('token', dados.token)
@@ -31,8 +32,10 @@ const AuthProvider = ({ children }) => {
       setUsuario(dados.user)
       return dados.user
     } catch (error) {
-      console.error("Erro ao realizar login:", error)
+      console.error('Erro ao realizar login:', error)
       throw error
+    } finally {
+      setCarregando(false)
     }
   }
 
@@ -46,25 +49,26 @@ const AuthProvider = ({ children }) => {
   const isDefesaCivil = usuario?.role === 'defesa_civil'
 
   return (
-    <AuthContext.Provider value={{ 
-      usuario, 
-      login, 
-      logout, 
-      carregando, 
-      isAcs, 
-      isDefesaCivil 
-    }}>
+    <AuthContext.Provider
+      value={{
+        usuario,
+        login,
+        logout,
+        carregando,
+        isAcs,
+        isDefesaCivil,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
 }
 
-const useAuth = () => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
     throw new Error('useAuth deve ser usado dentro de AuthProvider')
   }
   return context
 }
-
-export default { AuthProvider, useAuth }
